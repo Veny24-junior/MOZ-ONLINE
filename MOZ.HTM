@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="pt-MZ"> <!-- Removido o 'scroll-smooth' para navegação instantânea -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moçambique Seguro Online - Proteja-se de Fraudes Digitais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Nova paleta de cores: Apenas uma cor principal para títulos e destaque */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F4F8; /* Cinza suave */
+            color: #1A202C; /* Cor de texto padrão */
+        }
+        .primary-color { color: #00796B; } /* Turquesa */
+        .primary-bg { background-color: #00796B; } /* Turquesa */
+        .secondary-bg { background-color: #E2E8F0; /* Azul acinzentado */ }
+        .card-bg { background-color: #FFFFFF; /* Branco */ }
+        .alert-color { color: #E53E3E; /* Vermelho para alertas */ }
+        .alert-bg { background-color: #FEEBCB; }
+        .alert-border { border-color: #F6AD55; }
+        
+        /* Estilo da sombra para cards */
+        .shadow-md-custom {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Fundo com gradiente animado */
+        .animated-gradient-bg {
+            background: linear-gradient(-45deg, #f0f4f8, #e2e8f0, #d1d5db, #e2e8f0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Animações de entrada e micro-interações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+
+        .hover-scale-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .transition-transform {
+            transition-property: transform, box-shadow;
+            transition-duration: 300ms;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .copy-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .copy-btn:hover {
+            background-color: #004D40; /* Verde escuro */
+            transform: scale(1.05);
+        }
+
+        /* Melhoria no estilo do Acordeão (FAQ e Tipos de Fraude) */
+        .accordion-item {
+            border-bottom: 1px solid #d1d5db; /* Linha divisória */
+            transition: background-color 0.3s ease;
+        }
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        .accordion-item:hover {
+            background-color: #f7fafc;
+        }
+        .accordion-button {
+            width: 100%;
+            text-align: left;
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: #374151; /* Cinza escuro */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        .accordion-button:hover {
+            color: #00796B; /* Turquesa */
+        }
+        
+        .accordion-content {
+            background-color: #F0F4F8; /* Mesma cor do fundo principal para suavizar */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        .accordion-content.open {
+            max-height: 500px; /* Suficiente para expandir */
+            padding-top: 1rem;
+            padding-bottom: 1.5rem;
+        }
+        
+        .sms-bubble {
+            background-color: #CCFBF1; /* Turquesa claro */
+            border-radius: 1.1em 1.1em 1.1em 0.2em;
+            padding: 0.5rem 0.75rem;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: 0;
+        }
+        .whatsapp-bubble {
+            background-color: #E2E8F0; /* Azul acinzentado */
+            border-radius: 1.1em 1.1em 1.1em 0.2em;
+            padding: 0.5rem 0.75rem;
+            max-width: 80%;
+            margin-right: auto;
+            margin-left: 0;
+        }
+        .highlight-red {
+            color: #E53E3E;
+            font-weight: bold;
+            display: inline;
+        }
+        
+        /* Ajuste para os cartões de fraude. A lógica é a mesma do FAQ agora. */
+        .fraud-card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 1.5rem;
+        }
+        .fraud-card-details.open {
+            max-height: 500px; /* Suficiente para o conteúdo */
+            padding-top: 1rem;
+            padding-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased animated-gradient-bg">
+
+    <!-- Navbar -->
+    <header class="primary-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#inicio" class="text-xl font-bold">Moçambique Seguro Online</a>
+                </div>
+                <nav class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#fraudes" class="hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Tipos de Fraude</a>
+                        <a href="#proteger" class="hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Como se Proteger</a>
+                        <a href="#reportar" class="hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Onde Reportar</a>
+                        <a href="#faq" class="hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Dúvidas Frequentes</a>
+                        <a href="#report-form" class="hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Reportar Caso</a>
+                        <a href="#sobre" class="hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Sobre</a>
+                    </div>
+                </nav>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-teal-600 focus:outline-none transition duration-300">
+                        <span class="sr-only">Abrir menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-teal-600">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#fraudes" class="block hover:bg-teal-700 px-3 py-2 rounded-md text-base font-medium transition duration-300">Tipos de Fraude</a>
+                <a href="#proteger" class="block hover:bg-teal-700 px-3 py-2 rounded-md text-base font-medium transition duration-300">Como se Proteger</a>
+                <a href="#reportar" class="block hover:bg-teal-700 px-3 py-2 rounded-md text-base font-medium transition duration-300">Onde Reportar</a>
+                <a href="#faq" class="block hover:bg-teal-700 px-3 py-2 rounded-md text-base font-medium transition duration-300">Dúvidas Frequentes</a>
+                <a href="#report-form" class="block hover:bg-teal-700 px-3 py-2 rounded-md text-base font-medium transition duration-300">Reportar Caso</a>
+                <a href="#sobre" class="block hover:bg-teal-700 px-3 py-2 rounded-md text-base font-medium transition duration-300">Sobre</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- Seção Hero de Alto Impacto -->
+        <section id="inicio" class="py-24 sm:py-32 bg-white animate-fade-in">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-center md:text-left animate-fade-in delay-100">
+                        <!-- Título ajustado para uma cor mais suave -->
+                        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
+                            <span class="primary-color block">Navegue com</span>
+                            <span class="primary-color">Confiança.</span>
+                        </h1>
+                        <p class="mt-6 text-lg md:text-xl text-gray-600">A sua plataforma central para aprender a reconhecer, evitar e reportar fraudes digitais em Moçambique.</p>
+                        <div class="mt-8 flex justify-center md:justify-start space-x-4">
+                            <a href="#proteger" class="primary-bg text-white font-bold py-3 px-6 rounded-full hover:bg-teal-700 transition duration-300 shadow-lg">Comece Já</a>
+                            <a href="#fraudes" class="bg-transparent border-2 border-primary-bg text-primary-color font-bold py-3 px-6 rounded-full hover:bg-primary-bg hover:text-white transition duration-300">Explore Fraudes</a>
+                        </div>
+                    </div>
+                    <!-- REMOVIDO A IMAGEM CONFORME SOLICITADO -->
+                    <div class="hidden md:flex justify-center animate-fade-in delay-300">
+                         <img src="https://placehold.co/600x400/00796B/ffffff?text=Moçambique+Seguro+Online" alt="Diagrama de segurança digital mostrando um escudo e proteção." class="rounded-xl shadow-2xl">
+                    </div>
+                </div>
+                
+                <div class="mt-16 animate-fade-in delay-500">
+                    <!-- Título de alerta mantido com a cor principal -->
+                    <h2 class="text-3xl font-bold primary-color text-center">Alertas Recentes</h2>
+                    <div class="mt-8 max-w-2xl mx-auto text-left space-y-4">
+                        <div class="alert-bg p-6 rounded-xl border-l-4 alert-border shadow-md-custom">
+                            <p class="font-semibold primary-color">21 de Agosto de 2025: <span class="alert-color">ALERTA</span></p>
+                            <p class="text-gray-700 mt-2">Cuidado com SMS falsos sobre "actualização de conta" do M-Pesa. Não clique em nenhum link!</p>
+                        </div>
+                        <div class="alert-bg p-6 rounded-xl border-l-4 alert-border shadow-md-custom">
+                            <p class="font-semibold primary-color">15 de Agosto de 2025: <span class="alert-color">ALERTA</span></p>
+                            <p class="text-gray-700 mt-2">Circulam no WhatsApp falsas vagas de emprego para projetos de gás. Pedem pagamento para "processamento". É burla.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção do Gráfico -->
+        <section id="problema" class="py-24 sm:py-32 secondary-bg animate-fade-in delay-200">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <!-- Título principal com a cor primária para destaque -->
+                    <h2 class="text-3xl font-bold primary-color">O Desafio Digital em Moçambique</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">A digitalização avança mais rápido que a literacia digital, criando uma "janela de oportunidade" para os burladores. Este gráfico ilustra o desfasamento que nos propomos a combater.</p>
+                </div>
+                <div class="mt-16 chart-container">
+                    <canvas id="digitalGapChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Tipos de Fraude - Fundo alterado para secondary-bg -->
+        <section id="fraudes" class="py-24 sm:py-32 secondary-bg animate-fade-in delay-400">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold primary-color">Conheça os Golpes Mais Comuns</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Clique num tipo de fraude para aprender como funciona e como se proteger.</p>
+                </div>
+                <div id="fraud-grid" class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Proteção -->
+        <section id="proteger" class="py-24 sm:py-32 secondary-bg animate-fade-in delay-600">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <!-- Título principal com a cor primária para destaque -->
+                    <h2 class="text-3xl font-bold primary-color">Guia Essencial de Proteção</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Adote estes hábitos simples para aumentar drasticamente a sua segurança online.</p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card-bg p-8 rounded-xl shadow-md-custom text-center hover-scale-card transition-transform animate-fade-in delay-100">
+                        <div class="text-5xl primary-color mb-3 mx-auto">🔑</div>
+                        <!-- Subtítulo com cor suave e legível -->
+                        <h3 class="text-lg font-semibold primary-color">Crie Senhas Fortes</h3>
+                        <p class="mt-2 text-gray-600">Use combinações de letras, números e símbolos. Evite datas de aniversário ou nomes. Considere um gestor de senhas.</p>
+                    </div>
+                    <div class="card-bg p-8 rounded-xl shadow-md-custom text-center hover-scale-card transition-transform animate-fade-in delay-200">
+                        <div class="text-5xl primary-color mb-3 mx-auto">🔗</div>
+                        <h3 class="text-lg font-semibold primary-color">Verifique Antes de Clicar</h3>
+                        <p class="mt-2 text-gray-600">Passe o rato por cima dos links para ver o endereço real. Desconfie de links encurtados em mensagens suspeitas.</p>
+                    </div>
+                    <div class="card-bg p-8 rounded-xl shadow-md-custom text-center hover-scale-card transition-transform animate-fade-in delay-300">
+                        <div class="text-5xl primary-color mb-3 mx-auto">🎁</div>
+                        <h3 class="text-lg font-semibold primary-color">Desconfie de Ofertas "Boas Demais"</h3>
+                        <p class="mt-2 text-gray-600">Prémios inesperados, empregos que pagam muito por pouco trabalho ou produtos com descontos absurdos são sinais de alerta.</p>
+                    </div>
+                    <div class="card-bg p-8 rounded-xl shadow-md-custom text-center hover-scale-card transition-transform animate-fade-in delay-400">
+                        <div class="text-5xl primary-color mb-3 mx-auto">💬</div>
+                        <h3 class="text-lg font-semibold primary-color">Nunca Partilhe Códigos ou PINs</h3>
+                        <p class="mt-2 text-gray-600">O seu banco ou operadora NUNCA irá pedir o seu PIN, senha ou código de verificação por SMS, telefone ou email.</p>
+                    </div>
+                    <div class="card-bg p-8 rounded-xl shadow-md-custom text-center hover-scale-card transition-transform animate-fade-in delay-500">
+                        <div class="text-5xl primary-color mb-3 mx-auto">🔄</div>
+                        <h3 class="text-lg font-semibold primary-color">Mantenha o Software Atualizado</h3>
+                        <p class="mt-2 text-gray-600">Atualizações do telemóvel e de aplicativos corrigem falhas de segurança que podem ser exploradas por criminosos.</p>
+                    </div>
+                    <div class="card-bg p-8 rounded-xl shadow-md-custom text-center hover-scale-card transition-transform animate-fade-in delay-600">
+                        <div class="text-5xl primary-color mb-3 mx-auto">👥</div>
+                        <h3 class="text-lg font-semibold primary-color">Proteja as Suas Redes Sociais</h3>
+                        <p class="mt-2 text-gray-600">Reveja as suas definições de privacidade. Tenha cuidado com quem aceita como amigo e com a informação que partilha publicamente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção de Exemplos de Fraudes -->
+        <section id="exemplos" class="py-24 sm:py-32 bg-white animate-fade-in">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <!-- Título principal com a cor primária para destaque -->
+                    <h2 class="text-3xl font-bold primary-color">Aprenda a Detetar uma Fraude</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Analisamos exemplos reais para lhe mostrar os sinais de alerta que a maioria das fraudes tem.</p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Exemplo de Mensagem SMS Falsa -->
+                    <div class="card-bg p-6 rounded-xl shadow-md-custom animate-fade-in delay-100">
+                        <!-- Subtítulo com cor mais suave -->
+                        <h3 class="text-xl font-bold primary-color mb-4">Mensagem SMS Falsa</h3>
+                        <div class="flex flex-col space-y-2">
+                            <div class="bg-gray-200 p-3 rounded-xl">
+                                <span class="font-semibold text-gray-700">De:</span> <span class="primary-color font-mono">841234567</span> <span class="font-semibold text-gray-700">Data:</span> 25/08/2025
+                            </div>
+                            <div class="sms-bubble">
+                                <p class="text-sm">Parabens! O seu numero foi selecionado para receber um premio de 25,000 MT. Para reclamar, clique no link abaixo: <span class="highlight-red">bit.ly/premio-falso</span> ou ligue para o nosso agente AGORA!</p>
+                            </div>
+                            <p class="mt-4 text-sm text-gray-600">⚠️ <span class="font-bold">Sinais de Alerta:</span></p>
+                            <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                                <li><strong class="alert-color">Número desconhecido:</strong> As operadoras e bancos usam números curtos oficiais.</li>
+                                <li><strong class="alert-color">Urgência e euforia:</strong> Frases como "AGORA!" ou "Parabéns" criam uma necessidade de ação rápida.</li>
+                                <li><strong class="alert-color">Link encurtado:</strong> Escondem o verdadeiro endereço do site, que geralmente é malicioso.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Exemplo de E-mail de Phishing -->
+                    <div class="card-bg p-6 rounded-xl shadow-md-custom animate-fade-in delay-200">
+                        <!-- Subtítulo com cor mais suave -->
+                        <h3 class="text-xl font-bold primary-color mb-4">E-mail de Phishing</h3>
+                        <div class="flex flex-col space-y-2 border border-gray-300 rounded-lg p-3">
+                            <div class="text-sm">
+                                <span class="font-semibold text-gray-700">De:</span> <span class="alert-color font-mono">suporte-mpesa@gmail.com</span>
+                            </div>
+                            <div class="text-sm">
+                                <span class="font-semibold text-gray-700">Assunto:</span> A sua conta M-Pesa será suspensa
+                            </div>
+                            <hr class="my-2 border-gray-300">
+                            <p class="text-gray-700">Prezado Cliente,</p>
+                            <p class="text-gray-700">Houve uma atividade suspeita na sua conta. Por favor, clique no link abaixo para <span class="highlight-red">verificar as suas credenciais</span> e evitar que a sua conta seja <span class="highlight-red">suspensa</span>.</p>
+                            <a href="#" class="primary-color font-semibold underline break-all mt-2">https://www.vodacom-mpesa-verificar.com</a>
+                            <p class="text-gray-700 mt-4">Atenciosamente,</p>
+                            <p class="text-gray-700">Equipe de Suporte Vodacom</p>
+                            <p class="mt-4 text-sm text-gray-600">⚠️ <span class="font-bold">Sinais de Alerta:</span></p>
+                            <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                                <li><strong class="alert-color">Endereço de e-mail estranho:</strong> Empresas legítimas não usam endereços como @gmail.com.</li>
+                                <li><strong class="alert-color">Falsa urgência:</strong> Ameaças de suspensão de conta para o forçar a agir sem pensar.</li>
+                                <li><strong class="alert-color">Erros de português:</strong> Muitos burladores usam tradutores e não revisam o texto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Reportar -->
+        <section id="reportar" class="py-24 sm:py-32 secondary-bg animate-fade-in delay-200">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <!-- Título principal com a cor primária para destaque -->
+                    <h2 class="text-3xl font-bold primary-color">Foi Vítima de Fraude? Aja Rápido.</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Contacte imediatamente a sua instituição financeira e as autoridades. Centralizamos aqui os contactos mais importantes.</p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    <div class="card-bg p-8 rounded-xl shadow-md-custom">
+                        <div class="flex items-center space-x-2 mb-4">
+                            <span class="text-3xl primary-color">🏛️</span>
+                            <h3 class="text-xl font-bold primary-color">Bancos</h3>
+                        </div>
+                        <ul class="space-y-4">
+                            <li class="flex justify-between items-center text-gray-700"><span>BCI: 800 224 224</span><button class="copy-btn primary-bg text-white px-3 py-1 text-xs rounded-full shadow-md">Copiar</button></li>
+                            <li class="flex justify-between items-center text-gray-700"><span>Millennium bim: 800 246 246</span><button class="copy-btn primary-bg text-white px-3 py-1 text-xs rounded-full shadow-md">Copiar</button></li>
+                            <li class="flex justify-between items-center text-gray-700"><span>Standard Bank: 800 242 424</span><button class="copy-btn primary-bg text-white px-3 py-1 text-xs rounded-full shadow-md">Copiar</button></li>
+                        </ul>
+                    </div>
+                    <div class="card-bg p-8 rounded-xl shadow-md-custom">
+                         <div class="flex items-center space-x-2 mb-4">
+                             <span class="text-3xl primary-color">📞</span>
+                             <h3 class="text-xl font-bold primary-color">Operadoras Móveis</h3>
+                         </div>
+                        <ul class="space-y-4">
+                            <li class="flex justify-between items-center text-gray-700"><span>Vodacom (M-Pesa): 84111</span><button class="copy-btn primary-bg text-white px-3 py-1 text-xs rounded-full shadow-md">Copiar</button></li>
+                            <li class="flex justify-between items-center text-gray-700"><span>Movitel (e-Mola): 100</span><button class="copy-btn primary-bg text-white px-3 py-1 text-xs rounded-full shadow-md">Copiar</button></li>
+                            <li class="flex justify-between items-center text-gray-700"><span>TMcel (M-Kesh): 100</span><button class="copy-btn primary-bg text-white px-3 py-1 text-xs rounded-full shadow-md">Copiar</button></li>
+                        </ul>
+                    </div>
+                    <div class="card-bg p-8 rounded-xl shadow-md-custom">
+                        <div class="flex items-center space-x-2 mb-4">
+                            <span class="text-3xl primary-color">🚔</span>
+                            <h3 class="text-xl font-bold primary-color">Autoridades</h3>
+                        </div>
+                        <ul class="space-y-4">
+                            <li class="flex justify-between items-center text-gray-700"><span>SERNIC: 112</span><button class="copy-btn primary-bg text-white px-3 py-1 text-xs rounded-full shadow-md">Copiar</button></li>
+                            <li class="flex justify-between items-center text-gray-700"><span>Polícia (PRM): 119</span><button class="copy-btn primary-bg text-white px-3 py-1 text-xs rounded-full shadow-md">Copiar</button></li>
+                        </ul>
+                    </div>
+                </div>
+                 <div id="copy-feedback" class="mt-6 text-center font-semibold primary-color opacity-0 transition-opacity duration-300">Contacto copiado!</div>
+            </div>
+        </section>
+
+        <!-- Seção de Dúvidas Frequentes (FAQ) Aprimorada -->
+        <section id="faq" class="py-24 sm:py-32 secondary-bg animate-fade-in">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <!-- Título principal com a cor primária para destaque -->
+                    <h2 class="text-3xl font-bold primary-color">Dúvidas Frequentes</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Encontre respostas rápidas para as perguntas mais comuns sobre segurança digital.</p>
+                </div>
+                <div id="faq-accordion" class="mt-16 max-w-4xl mx-auto rounded-xl shadow-md-custom overflow-hidden">
+                    <div class="accordion-item card-bg">
+                        <button class="accordion-button" aria-expanded="false">
+                            <span>O que devo fazer se partilhei dados pessoais por engano?</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="text-gray-700">Primeiro, contacte imediatamente a sua instituição financeira ou operadora móvel. Depois, altere todas as suas senhas e, se necessário, bloqueie temporariamente os seus cartões. Apresente uma queixa no SERNIC.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item card-bg mt-2">
+                         <button class="accordion-button" aria-expanded="false">
+                            <span>Como posso verificar se um site de compras é seguro?</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="text-gray-700">Procure o ícone de cadeado 🔒 na barra de endereço. Verifique se o endereço começa com "https://" (o 's' é de seguro). Sites seguros também têm uma política de privacidade e informações de contacto claras.</p>
+                        </div>
+                    </div>
+                     <div class="accordion-item card-bg mt-2">
+                         <button class="accordion-button" aria-expanded="false">
+                            <span>É seguro guardar senhas no meu navegador (Chrome, Firefox)?</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="text-gray-700">Embora seja conveniente, guardar senhas no navegador pode ser um risco se o seu computador for infetado por um vírus. O ideal é usar um gestor de senhas dedicado (como LastPass ou 1Password) que criptografa as suas informações.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item card-bg mt-2">
+                         <button class="accordion-button" aria-expanded="false">
+                            <span>O que é a autenticação de dois fatores e por que é importante?</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="text-gray-700">A autenticação de dois fatores (2FA) é uma camada extra de segurança que exige uma segunda forma de verificação além da sua senha. Pode ser um código enviado por SMS, um token gerado por uma aplicação (como o Google Authenticator) ou uma biometria (impressão digital). É crucial porque, mesmo que um burlador descubra a sua senha, ele não conseguirá aceder à sua conta sem o segundo fator.</p>
+                        </div>
+                    </div>
+                     <div class="accordion-item card-bg mt-2">
+                         <button class="accordion-button" aria-expanded="false">
+                            <span>O meu telefone pode ser invadido apenas por atender uma chamada de um número desconhecido?</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="text-gray-700">Não, o seu telefone não pode ser invadido apenas por atender uma chamada. No entanto, o ato de atender pode confirmar que o seu número está ativo, o que pode levar a um aumento de chamadas ou mensagens de spam e tentativas de burla. A ameaça não é a chamada em si, mas a subsequente interação que ela pode gerar.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item card-bg mt-2">
+                         <button class="accordion-button" aria-expanded="false">
+                            <span>As empresas de internet banking em Moçambique contactam-me por WhatsApp?</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="text-gray-700">Não. As empresas de internet banking ou as suas operadoras de dinheiro móvel (M-Pesa, e-Mola, M-Kesh) **nunca** entrarão em contacto consigo através de um número de WhatsApp pessoal, e muito menos pedirão para clicar em links ou partilhar informações confidenciais por esta via. Use sempre os canais de contacto oficiais e seguros fornecidos por eles.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item card-bg mt-2">
+                         <button class="accordion-button" aria-expanded="false">
+                            <span>Por que recebo mensagens sobre prémios que nunca me inscrevi?</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="text-gray-700">Estas mensagens são uma tática comum de phishing. O objetivo é criar entusiasmo e fazer com que clique num link malicioso ou partilhe as suas informações pessoais e bancárias. Lembre-se, se não se inscreveu em nada, não há como ter ganhado um prémio. Ignore-as e apague-as.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- Seção de Formulário de Reporte -->
+        <section id="report-form" class="py-24 sm:py-32 bg-white animate-fade-in">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <!-- Título principal com a cor primária para destaque -->
+                    <h2 class="text-3xl font-bold primary-color">Reportar um Caso de Fraude</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Utilize este formulário para nos enviar informações sobre uma fraude. Ajude-nos a combater o crime digital!</p>
+                </div>
+                <div class="mt-16 max-w-2xl mx-auto card-bg p-8 rounded-xl shadow-md-custom">
+                    <form id="report-case-form" class="space-y-6">
+                        <div>
+                            <label for="client-name" class="block text-sm font-medium text-gray-700">Seu Nome <span class="text-red-500">*</span></label>
+                            <input type="text" id="client-name" name="client-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-bg focus:ring focus:ring-primary-bg focus:ring-opacity-50 p-2" placeholder="Digite seu nome completo...">
+                        </div>
+                        <div>
+                            <label for="client-phone" class="block text-sm font-medium text-gray-700">Seu Telefone <span class="text-red-500">*</span></label>
+                            <input type="tel" id="client-phone" name="client-phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-bg focus:ring focus:ring-primary-bg focus:ring-opacity-50 p-2" placeholder="Digite seu número de telefone...">
+                        </div>
+                        <div>
+                            <label for="report-type" class="block text-sm font-medium text-gray-700">Tipo de Fraude <span class="text-red-500">*</span></label>
+                            <select id="report-type" name="report-type" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-bg focus:ring focus:ring-primary-bg focus:ring-opacity-50 p-2">
+                                <option value="">Selecione o tipo de fraude...</option>
+                                <option value="Phishing">Phishing e Smishing</option>
+                                <option value="Falsas Vagas">Falsas Vagas de Emprego</option>
+                                <option value="Roubo de Identidade">Roubo de Identidade (WhatsApp/Facebook)</option>
+                                <option value="Burlas com Dinheiro Móvel">Burlas com Dinheiro Móvel</option>
+                                <option value="Sextortion">Sextortion</option>
+                                <option value="Venda Falsa">Vendas Falsas Online</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="report-description" class="block text-sm font-medium text-gray-700">Descrição do Caso <span class="text-red-500">*</span></label>
+                            <textarea id="report-description" name="report-description" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-bg focus:ring focus:ring-primary-bg focus:ring-opacity-50 p-2" placeholder="Descreva o que aconteceu, incluindo detalhes como números de telefone, e-mails, links, etc."></textarea>
+                        </div>
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button type="submit" id="send-email-btn" class="w-full sm:w-1/2 primary-bg text-white font-bold py-3 px-6 rounded-full hover:bg-teal-700 transition duration-300 shadow-lg">Enviar por E-mail</button>
+                            <button type="submit" id="send-whatsapp-btn" class="w-full sm:w-1/2 bg-green-500 text-white font-bold py-3 px-6 rounded-full hover:bg-green-600 transition duration-300 shadow-lg">Enviar por WhatsApp</button>
+                        </div>
+                    </form>
+                    <div id="report-feedback" class="mt-6 text-center font-semibold text-green-600 hidden">
+                        <p>Obrigado! Clique no botão de E-mail ou WhatsApp para enviar a sua denúncia.</p>
+                        <a id="report-link" href="#" target="_blank" class="primary-color mt-2 inline-block font-bold hover:underline"></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Sobre -->
+        <section id="sobre" class="py-24 sm:py-32 secondary-bg animate-fade-in delay-400">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto text-center">
+                    <!-- Título principal com a cor primária para destaque -->
+                    <h2 class="text-3xl font-bold primary-color">Visão Estratégica do Projeto</h2>
+                    <p class="mt-4 text-gray-600">O <span class="text-xl font-bold primary-color">"Moçambique Seguro Online"</span> é uma iniciativa estratégica com o objetivo de mitigar o risco de fraudes digitais através da educação e capacitação. A plataforma visa preencher a lacuna de literacia digital, oferecendo uma solução proativa e escalável para um problema que impacta diretamente a estabilidade económica e a confiança no ecossistema digital do país. A nossa missão é fornecer um recurso de alto valor para os cidadãos, contribuindo para um ambiente online mais seguro e resiliente para todos.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé Aprimorado -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <!-- Coluna 1: Descrição e Copyright -->
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Moçambique Seguro Online</h4>
+                    <p class="text-sm text-gray-400">Um projecto para um futuro digital mais seguro em Moçambique.</p>
+                    <p class="text-xs text-gray-500 mt-4">&copy; 2025 Moçambique Seguro Online. Todos os direitos reservados.</p>
+                </div>
+                <!-- Coluna 2: Contactos -->
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Contactos</h4>
+                    <address class="space-y-2 not-italic text-sm text-gray-400">
+                        <p><strong>Email:</strong> <a href="mailto:info@mocambiqueseguroonline.co.mz" class="hover:underline">info@mocambiqueseguroonline.co.mz</a></p>
+                        <p><strong>Telefone:</strong> 84 987 6543 | 86 123 4567</p>
+                    </address>
+                </div>
+                <!-- Coluna 3: Localização -->
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Localização</h4>
+                    <p class="text-sm text-gray-400">Maputo Cidade, Moçambique</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Definição dos dados para os cartões de fraude com ícones de emoji
+            const fraudData = [
+                {
+                    key: 'phishing',
+                    icon: '🎣',
+                    title: 'Phishing e Smishing',
+                    content: `
+                        <p><strong>Como Funciona:</strong> Os burladores enviam emails (phishing) ou SMS (smishing) que parecem ser de uma empresa legítima (banco, operadora) para o enganar a partilhar informações sensíveis.</p>
+                        <p><strong>Como Reconhecer:</strong> Mensagens com erros ortográficos, um tom de urgência ("a sua conta será bloqueada!"), e links que levam a websites com endereços estranhos.</p>
+                        <p><strong>Como Prevenir:</strong> Nunca clique em links suspeitos. Aceda sempre ao site da empresa digitando o endereço diretamente no navegador. Nunca partilhe senhas ou códigos.</p>
+                    `
+                },
+                {
+                    key: 'vagas-falsas',
+                    icon: '💼',
+                    title: 'Falsas Vagas de Emprego',
+                    content: `
+                        <p><strong>Como Funciona:</strong> Anúncios de emprego muito atrativos são partilhados nas redes sociais. Para se candidatar ou "garantir" a vaga, pedem um pagamento para "taxas administrativas", "exames médicos" ou "uniformes".</p>
+                        <p><strong>Como Reconhecer:</strong> Empresas legítimas não cobram para contratar. Desconfie de ofertas que não pedem qualificações específicas e usam contactos não oficiais (contas de Gmail, números de WhatsApp pessoais).</p>
+                        <p><strong>Como Prevenir:</strong> Pesquise o nome da empresa. Contacte a empresa através dos seus canais oficiais para confirmar a vaga. Nunca pague para conseguir um emprego.</p>
+                    `
+                },
+                {
+                    key: 'roubo-identidade',
+                    icon: '🎭',
+                    title: 'Roubo de Identidade (WhatsApp/Facebook)',
+                    content: `
+                        <p><strong>Como Funciona:</strong> Os burladores criam um novo perfil com a sua foto e nome e adicionam os seus amigos. Depois, enviam mensagens a pedir dinheiro urgentemente, inventando uma emergência.</p>
+                        <p><strong>Como Reconhecer:</strong> Recebe um pedido de amizade de alguém que já é seu amigo. A pessoa escreve de forma estranha ou recusa-se a falar ao telefone para confirmar a identidade.</p>
+                        <p><strong>Como Prevenir:</strong> Se receber um pedido de dinheiro suspeito, ligue para o seu amigo através do número que já tinha guardado para confirmar. Ative a verificação de dois passos nas suas contas.</p>
+                    `
+                },
+                {
+                    key: 'burlas-mpesa',
+                    icon: '�',
+                    title: 'Burlas com Dinheiro Móvel',
+                    content: `
+                        <p><strong>Como Funciona:</strong> Existem várias táticas. Uma comum é receber um SMS de depósito falso, seguido de uma chamada de alguém a pedir que devolva o "dinheiro enviado por engano". Outra é alguém ligar a fingir ser da operadora para "ajudar" a fazer uma atualização, pedindo que digite códigos que, na verdade, autorizam transações.</p>
+                        <p><strong>Como Reconhecer:</strong> Verifique sempre o seu saldo na aplicação oficial antes de agir. A sua operadora nunca vai ligar para pedir que digite o seu PIN ou códigos no telemóvel.</p>
+                        <p><strong>Como Prevenir:</strong> Ignore pedidos de devolução sem antes confirmar o seu saldo real. Desligue a chamada se alguém pedir o seu PIN. O PIN é secreto e pessoal.</p>
+                    `
+                },
+                 {
+                    key: 'sextortion',
+                    icon: '😈',
+                    title: 'Sextortion',
+                    content: `
+                        <p><strong>Como Funciona:</strong> Os burladores chantageiam as vítimas ameaçando partilhar imagens ou vídeos íntimos seus, a menos que seja pago um resgate. Muitas vezes, estas imagens são obtidas através de contas pirateadas ou enganando a vítima para que as partilhe.</p>
+                        <p><strong>Como Reconhecer:</strong> Recebe uma mensagem de um desconhecido com uma imagem ou vídeo seu de natureza íntima, seguida de uma exigência de dinheiro.</p>
+                        <p><strong>Como Prevenir:</strong> Tenha muito cuidado ao partilhar conteúdo íntimo online. Use senhas fortes e autenticação de dois fatores para proteger as suas contas. Não ceda à chantagem - reporte imediatamente às autoridades.</p>
+                    `
+                },
+                 {
+                    key: 'venda-falsa',
+                    icon: '📦',
+                    title: 'Vendas Falsas Online',
+                    content: `
+                        <p><strong>Como Funciona:</strong> Vendedores em redes sociais ou sites de classificados anunciam produtos (telemóveis, eletrodomésticos) a preços muito baixos. Exigem o pagamento adiantado (total ou parcial) e, depois de receberem o dinheiro, desaparecem e bloqueiam a vítima.</p>
+                        <p><strong>Como Reconhecer:</strong> Preços demasiado bons para ser verdade. O vendedor pressiona para um pagamento rápido e recusa-se a encontrar-se pessoalmente para a entrega.</p>
+                        <p><strong>Como Prevenir:</strong> Prefira sempre pagar no ato da entrega. Se possível, encontre-se com o vendedor num local público e seguro. Verifique o perfil do vendedor em busca de sinais de alerta.</p>
+                    `
+                },
+                {
+                    key: 'piramide-financeira',
+                    icon: '💰',
+                    title: 'Esquemas de Pirâmide Financeira',
+                    content: `
+                        <p><strong>Como Funciona:</strong> Prometem retornos financeiros incrivelmente altos em curtos períodos. O lucro, no entanto, não vem da venda de um produto ou serviço real, mas sim do recrutamento de novos membros que investem dinheiro. O esquema colapsa quando não há mais novos membros para recrutar.</p>
+                        <p><strong>Como Reconhecer:</strong> Foco intenso no recrutamento; promessas de "dinheiro fácil" e lucros garantidos sem risco; ausência de um produto ou serviço de valor real; pressão para investir grandes quantias.</p>
+                        <p><strong>Como Prevenir:</strong> Se a promessa de retorno parecer boa demais para ser verdade, provavelmente é. Investigue a empresa. Consulte especialistas financeiros. Desconfie de sistemas que dependem exclusivamente de recrutar novos "investidores".</p>
+                    `
+                },
+                {
+                    key: 'ola-mae',
+                    icon: '📞',
+                    title: 'Burlas do "Olá Mãe"',
+                    content: `
+                        <p><strong>Como Funciona:</strong> O burlador envia uma mensagem por WhatsApp ou SMS de um número desconhecido, fingindo ser o seu filho/a. Alega que o telemóvel antigo avariou e que precisa de dinheiro com urgência para pagar uma conta ou um conserto.</p>
+                        <p><strong>Como Reconhecer:</strong> O pedido é de um número novo e o tom é de grande urgência. Geralmente, recusam-se a fazer uma chamada ou inventam desculpas para não o fazer.</p>
+                        <p><strong>Como Prevenir:</strong> Confirme sempre a identidade da pessoa. Peça para ligar para o número antigo ou faça uma chamada de vídeo para o novo número para confirmar que é realmente o seu familiar. Nunca transfira dinheiro sem ter a certeza absoluta.</p>
+                    `
+                },
+                {
+                    key: 'lotaria-premio',
+                    icon: '🎁',
+                    title: 'Burlas do Prémio de Lotaria',
+                    content: `
+                        <p><strong>Como Funciona:</strong> Recebe um email, mensagem ou chamada a informar que ganhou um prémio substancial numa lotaria ou sorteio em que não participou. Para receber o prémio, é-lhe pedido que pague uma "taxa de processamento" ou forneça os seus dados bancários.</p>
+                        <p><strong>Como Reconhecer:</strong> Não participou em nenhum sorteio. O contacto é inesperado e a promessa de dinheiro é demasiado boa para ser verdade. O pedido de dinheiro é feito para um indivíduo e não para uma instituição legítima.</p>
+                        <p><strong>Como Prevenir:</strong> Ignore e apague a mensagem. Entenda que nenhuma lotaria legítima ou prémio exige um pagamento prévio para que o dinheiro seja liberado. Nunca partilhe os seus dados bancários ou informações pessoais.</p>
+                    `
+                },
+                {
+                    key: 'falsos-tecnicos',
+                    icon: '👨‍💻',
+                    title: 'Falsos Técnicos e Suporte',
+                    content: `
+                        <p><strong>Como Funciona:</strong> O burlador entra em contacto por telefone, e-mail ou mensagem, fingindo ser um técnico de suporte da sua operadora (Internet, TV, telemóvel) ou banco. Alegam que há um problema urgente com o seu serviço ou conta e que precisam dos seus dados de acesso, senhas ou até que instale software.</p>
+                        <p><strong>Como Reconhecer:</strong> A chamada é inesperada e com um tom de urgência. O suposto "técnico" pede informações confidenciais que uma empresa legítima nunca pediria, como o seu PIN, senha de internet banking ou acesso remoto ao seu computador.</p>
+                        <p><strong>Como Prevenir:</strong> Desligue a chamada. Se desconfiar, ligue para o número de suporte oficial da empresa, que está na sua fatura ou no site oficial. Nunca dê informações confidenciais a estranhos, nem permita que controlem o seu computador remotamente.</p>
+                    `
+                }
+            ];
+            
+            const fraudGrid = document.getElementById('fraud-grid');
+
+            // Adiciona os cartões de fraude ao grid
+            fraudData.forEach(fraud => {
+                const card = document.createElement('div');
+                card.className = 'card-bg rounded-xl shadow-md-custom overflow-hidden cursor-pointer hover-scale-card transition-transform';
+                card.innerHTML = `
+                    <div class="p-6 text-center">
+                        <div class="text-5xl primary-color mb-3 mx-auto">${fraud.icon}</div>
+                        <h3 class="text-lg font-semibold primary-color">${fraud.title}</h3>
+                    </div>
+                    <div class="fraud-card-details secondary-bg">
+                        <div class="p-6">
+                            ${fraud.content}
+                        </div>
+                    </div>
+                `;
+                fraudGrid.appendChild(card);
+            });
+            
+            // Lógica do acordeão para os cartões
+            const fraudCards = document.querySelectorAll('#fraud-grid .card-bg');
+            fraudCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const details = card.querySelector('.fraud-card-details');
+                    
+                    // Fecha todos os outros cartões de fraude
+                    fraudCards.forEach(otherCard => {
+                        if (otherCard !== card) {
+                            const otherDetails = otherCard.querySelector('.fraud-card-details');
+                            otherDetails.classList.remove('open');
+                        }
+                    });
+                    
+                    // Togle o cartão clicado
+                    details.classList.toggle('open');
+                });
+            });
+
+            // Lógica para o menu móvel
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Lógica para o gráfico Chart.js
+            const ctx1 = document.getElementById('digitalGapChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['2018', '2020', '2022', '2024', '2026 (Proj.)'],
+                    datasets: [{
+                        label: 'Crescimento Digital (Acesso e Serviços)',
+                        data: [30, 55, 70, 85, 95],
+                        backgroundColor: '#00796B', /* Nova cor */
+                        borderColor: '#00695C',
+                        borderWidth: 1
+                    }, {
+                        label: 'Literacia Digital da População',
+                        data: [20, 30, 35, 45, 55],
+                        backgroundColor: '#546E7A', /* Nova cor */
+                        borderColor: '#455A64',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                             ticks: {
+                                color: '#495057',
+                                callback: function(value) {
+                                    return value + '%'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#495057',
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Evolução do Desfasamento Digital vs. Literacia',
+                            color: '#212529',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                color: '#212529'
+                            }
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + '% (Nível Estimado)';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Lógica para os botões de copiar
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            const copyFeedback = document.getElementById('copy-feedback');
+            copyButtons.forEach(button => {
+                const text = button.parentNode.querySelector('span').textContent.split(': ')[1];
+                button.dataset.text = text;
+                button.addEventListener('click', () => {
+                    const textToCopy = button.dataset.text;
+                    const tempInput = document.createElement('input');
+                    tempInput.value = textToCopy;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    try {
+                        document.execCommand('copy');
+                        copyFeedback.classList.remove('opacity-0');
+                        setTimeout(() => {
+                            copyFeedback.classList.add('opacity-0');
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Falha ao copiar texto: ', err);
+                    }
+                    document.body.removeChild(tempInput);
+                });
+            });
+
+            // Lógica do Acordeão (FAQ)
+            const faqButtons = document.querySelectorAll('#faq-accordion .accordion-button');
+            faqButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const is_open = content.classList.toggle('open');
+                    
+                    button.setAttribute('aria-expanded', is_open);
+                    
+                    // Fecha todos os outros acordeões
+                    const parent = button.closest('section');
+                    if (parent) {
+                        parent.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                            if (openContent !== content) {
+                                openContent.classList.remove('open');
+                                const openBtn = openContent.previousElementSibling;
+                                if (openBtn) {
+                                     openBtn.setAttribute('aria-expanded', 'false');
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+
+            // Formulário de Reporte
+            const reportForm = document.getElementById('report-case-form');
+            const sendEmailBtn = document.getElementById('send-email-btn');
+            const sendWhatsappBtn = document.getElementById('send-whatsapp-btn');
+            const reportFeedback = document.getElementById('report-feedback');
+            const reportLink = document.getElementById('report-link');
+            
+            reportForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Impede o envio padrão do formulário
+                handleReport(e.submitter === sendWhatsappBtn);
+            });
+            
+            const handleReport = (isWhatsapp) => {
+                const clientName = document.getElementById('client-name').value;
+                const clientPhone = document.getElementById('client-phone').value;
+                const fraudType = document.getElementById('report-type').value;
+                const description = document.getElementById('report-description').value;
+                
+                // Validação simples (o 'required' já faz a maior parte do trabalho)
+                if (!clientName || !clientPhone || !fraudType || !description) {
+                    reportFeedback.classList.remove('hidden');
+                    reportFeedback.classList.add('text-red-600');
+                    reportFeedback.classList.remove('text-green-600');
+                    reportFeedback.innerHTML = '<p>Por favor, preencha todos os campos obrigatórios marcados com <span class="text-red-500">*</span>.</p>';
+                    reportLink.classList.add('hidden');
+                    return;
+                }
+                
+                const subject = encodeURIComponent(`Denúncia de Fraude - ${fraudType}`);
+                const body = encodeURIComponent(`Nome do Cliente: ${clientName}\nTelefone: ${clientPhone}\n\nTipo de Fraude: ${fraudType}\n\nDescrição do Caso:\n${description}\n\n---\nEnviado através de Moçambique Seguro Online.`);
+                
+                if (isWhatsapp) {
+                    const whatsappNumber = '25884xxxxxxx'; // Exemplo
+                    const whatsappText = `Olá. Gostaria de reportar um caso de fraude:\n\n${decodeURIComponent(body)}`;
+                    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
+                    reportLink.href = url;
+                    reportLink.textContent = 'Clique para enviar via WhatsApp';
+                } else {
+                    const emailAddress = 'denuncia@mocambiqueseguroonline.co.mz'; // Exemplo
+                    const url = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
+                    reportLink.href = url;
+                    reportLink.textContent = 'Clique para enviar via E-mail';
+                }
+                
+                reportFeedback.classList.remove('hidden');
+                reportFeedback.classList.remove('text-red-600');
+                reportFeedback.classList.add('text-green-600');
+                reportFeedback.innerHTML = '<p>Obrigado! Clique no botão de E-mail ou WhatsApp para enviar a sua denúncia.</p>';
+                reportLink.classList.remove('hidden');
+            };
+        });
+    </script>
+</body>
+</html>
