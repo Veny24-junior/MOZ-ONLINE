@@ -23,7 +23,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-// Adicione a sua URL do Formspree aqui. Obtenha-a no site do Formspree.
+//URL do Formspree aqui
 const FORMSPREE_URL = "https://formspree.io/f/mnngnqgq";
 
 /// Lógica para enviar o formulário
