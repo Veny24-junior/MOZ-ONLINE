@@ -1,4 +1,47 @@
- 
+ #cont {
+  color:#999;
+  text-transform: capitalize;
+  font-size:50px;
+  font-weight:bold;
+   
+
+  width:100%;
+  bottom:45%;
+  display:block;
+}
+
+#flip {
+  height:56px;
+  overflow:hidden;
+}
+
+#flip > div > div {
+  
+  padding:2px 6px;
+  height:50px;
+  margin-bottom:40px;
+  display:inline-block;
+}
+
+#flip div:first-child {
+  animation: show 5s linear infinite;
+}
+
+
+
+
+
+@keyframes show {
+  0% {margin-top:-270px;}
+  5% {margin-top:-180px;}
+  33% {margin-top:-180px;}
+  38% {margin-top:-90px;}
+  66% {margin-top:-90px;}
+  71% {margin-top:0px;}
+  99.99% {margin-top:0px;}
+  100% {margin-top:-270px;}
+}
+        
         /* Nova paleta de cores: Apenas uma cor principal para títulos e destaque */
         body {
             font-family: 'Inter', sans-serif;
@@ -160,3 +203,30 @@
             padding-top: 1rem;
             padding-bottom: 1.5rem;
         }
+
+        /* --- CSS CRUCIAL PARA CORRIGIR O PROBLEMA DO ACORDEÃO --- */
+
+.fraud-card-details {
+    /* Estado inicial: Escondido */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out; /* Transição suave */
+}
+
+.fraud-card-details.open {
+    /* Estado Aberto: Força a exibição de todo o conteúdo */
+    /* Use um valor grande (ex: 1000px) para garantir que o texto todo caiba */
+    max-height: 1000px; 
+    transition: max-height 0.5s ease-in;
+}
+
+/* Opcional: Melhora o visual do cartão ao ser expandido */
+.fraud-card.expanded {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05); /* Shadow mais forte */
+    transform: none; /* Remove o hover-scale ao expandir para mantê-lo estável */
+}
+
+/* Opcional: Gira o indicador de expansão (+) para (x) */
+.fraud-card.expanded .p-6:first-child span {
+    transform: rotate(45deg); 
+}
