@@ -230,3 +230,49 @@
 .fraud-card.expanded .p-6:first-child span {
     transform: rotate(45deg); 
 }
+
+        
+        /* Estilo base para o input de arquivo */
+        .file-input {
+            display: block;
+            width: 100%;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            color: #111827;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            background-color: #fff;
+            padding: 0.5rem;
+        }
+        
+        /* CSS para FORÇAR a TRADUÇÃO do botão nativo para "Escolher Arquivo" */
+        .file-input::file-selector-button {
+            margin-right: 1rem;
+            padding: 0.5rem 1rem;
+            border: 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background-color: #eef2ff;
+            color: #4f46e5;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            
+            /* Esta linha é a chave para a tradução no botão */
+            content: "Escolher Arquivo"; 
+        }
+        
+        .file-input::file-selector-button:hover {
+            background-color: #e0e7ff;
+        }
+
+        /* Estilo para a pré-visualização */
+        .preview-image {
+            max-width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
