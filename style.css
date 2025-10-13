@@ -154,7 +154,7 @@
         }
         
         .accordion-content {
-            background-color: #F0F4F8; /* Mesma cor do fundo principal para suavizar */
+            background-color: #F0F4F8;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease-out, padding 0.4s ease-out;
@@ -164,7 +164,7 @@
             padding-right: 1.5rem;
         }
         .accordion-content.open {
-            max-height: 500px; /* Suficiente para expandir */
+            max-height: 500px;
             padding-top: 1rem;
             padding-bottom: 1.5rem;
         }
@@ -191,7 +191,7 @@
             display: inline;
         }
         
-        /* Ajuste para os cartões de fraude. A lógica é a mesma do FAQ agora. */
+        /* Ajuste para os cartões de fraude */
         .fraud-card-details {
             max-height: 0;
             overflow: hidden;
@@ -199,12 +199,11 @@
             padding: 0 1.5rem;
         }
         .fraud-card-details.open {
-            max-height: 500px; /* Suficiente para o conteúdo */
+            max-height: 500px;
             padding-top: 1rem;
             padding-bottom: 1.5rem;
         }
 
-        /* --- CSS CRUCIAL PARA CORRIGIR O PROBLEMA DO ACORDEÃO --- */
 
 .fraud-card-details {
     /* Estado inicial: Escondido */
@@ -215,18 +214,17 @@
 
 .fraud-card-details.open {
     /* Estado Aberto: Força a exibição de todo o conteúdo */
-    /* Use um valor grande (ex: 1000px) para garantir que o texto todo caiba */
     max-height: 1000px; 
     transition: max-height 0.5s ease-in;
 }
 
-/* Opcional: Melhora o visual do cartão ao ser expandido */
+/* Melhora o visual do cartão ao ser expandido */
 .fraud-card.expanded {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05); /* Shadow mais forte */
     transform: none; /* Remove o hover-scale ao expandir para mantê-lo estável */
 }
 
-/* Opcional: Gira o indicador de expansão (+) para (x) */
+/*Gira o indicador de expansão (+) para (x) */
 .fraud-card.expanded .p-6:first-child span {
     transform: rotate(45deg); 
 }

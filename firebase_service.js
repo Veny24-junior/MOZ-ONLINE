@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Configuração do Firebase (UTILIZE SUAS PRÓPRIAS CHAVES!)
+// Configuração do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyAc_HXPzSCLjrsHb24rLVVAwR7vZUQECEw",
     authDomain: "mocam-e2424.firebaseapp.com",
@@ -17,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// URL do Formspree (UTILIZE SEU PRÓPRIO ENDPOINT!)
+// URL do Formspree API
 const FORMSPREE_URL = "https://formspree.io/f/mnngnqgq";
 
 // Contador para rastrear quantos campos foram adicionados (máximo de 3)
